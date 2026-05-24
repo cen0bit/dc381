@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC381 | DefCon Nis & Belgrade</title>
+  <meta name="description" content="DC381 – DefCon local, Nis & Belgrade, Serbia." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0a0a0a;
+      --bg2:       #111111;
+      --bg3:       #181818;
+      --border:    #2a2a2a;
+      --green:     #00ff41;
+      --green-dim: #00bb30;
+      --green-glow:#00ff4133;
+      --red:       #ff2b2b;
+      --amber:     #ffb700;
+      --text:      #c8c8c8;
+      --text-dim:  #666;
+      --white:     #f0f0f0;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-head: 'Orbitron', monospace;
+      --font-body: 'Space Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,0,0,0.08) 3px,rgba(0,0,0,0.08) 4px);
+      pointer-events: none; z-index: 9999;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(0,255,65,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,0.03) 1px,transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .logo {
+      font-family: var(--font-head); font-weight: 900; font-size: 18px;
+      color: var(--green); text-decoration: none; letter-spacing: 2px;
+      text-shadow: 0 0 12px var(--green-glow);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-badge {
+      background: var(--green); color: #000; font-size: 10px; font-weight: 700;
+      padding: 2px 6px; border-radius: 2px; letter-spacing: 1px;
+    }
+    nav { display: flex; align-items: center; gap: 6px; }
+    nav a {
+      font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+      text-decoration: none; padding: 6px 12px; border: 1px solid transparent;
+      border-radius: 2px; transition: all 0.2s; letter-spacing: 1px; text-transform: uppercase;
+    }
+    nav a:hover, nav a.active { color: var(--green); border-color: var(--green); background: var(--green-glow); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--green); border-radius: 2px; transition: 0.3s; }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto; padding: 80px 24px 60px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .hero-label {
+      font-family: var(--font-mono); font-size: 12px; color: var(--green-dim);
+      letter-spacing: 3px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--green-dim); }
+    .hero h1 { font-family: var(--font-head); font-size: clamp(32px,6vw,68px); font-weight: 900; color: var(--white); line-height: 1.05; letter-spacing: -1px; }
+    .hero h1 span { color: var(--green); text-shadow: 0 0 20px var(--green-glow); }
+    .hero-sub { font-family: var(--font-mono); font-size: 15px; color: var(--text); max-width: 560px; border-left: 3px solid var(--green); padding-left: 16px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .btn {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      padding: 12px 24px; border-radius: 2px; text-decoration: none; transition: all 0.2s;
+      cursor: pointer; border: none; display: inline-block;
+    }
+    .btn-primary { background: var(--green); color: #000; font-weight: 700; }
+    .btn-primary:hover { background: #fff; box-shadow: 0 0 20px var(--green-glow); }
+    .btn-outline { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .btn-outline:hover { background: var(--green-glow); box-shadow: 0 0 20px var(--green-glow); }
+    .terminal-badge {
+      font-family: var(--font-mono); font-size: 12px; color: var(--green-dim);
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 10px 16px; border-radius: 2px; max-width: max-content; margin-top: 12px;
+    }
+    .terminal-badge::before { content: '$ '; color: var(--green); }
+    .blink { animation: blink 1s step-end infinite; color: var(--green); }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+    .section-title {
+      font-family: var(--font-head); font-size: 13px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 32px; display: flex; align-items: center; gap: 16px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* STATS */
+    .stats { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-grid { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4,1fr); }
+    .stat-item { padding: 28px 24px; border-right: 1px solid var(--border); text-align: center; }
+    .stat-item:last-child { border-right: none; }
+    .stat-value { font-family: var(--font-head); font-size: 32px; font-weight: 700; color: var(--green); text-shadow: 0 0 12px var(--green-glow); display: block; }
+    .stat-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .about-text p { color: var(--text); margin-bottom: 16px; font-size: 14px; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; padding: 28px; }
+    .about-card h3 { font-family: var(--font-head); font-size: 13px; color: var(--green); letter-spacing: 2px; margin-bottom: 20px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-family: var(--font-mono); font-size: 11px; padding: 4px 10px;
+      border: 1px solid var(--border); border-radius: 2px; color: var(--text-dim);
+      background: var(--bg3); transition: 0.2s;
+    }
+    .tag:hover { border-color: var(--green); color: var(--green); }
+
+    /* MEETUP */
+    .meetup-card {
+      background: var(--bg2); border: 1px solid var(--green); border-radius: 2px;
+      padding: 32px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+      box-shadow: 0 0 30px rgba(0,255,65,0.06);
+    }
+    .meetup-date-badge {
+      font-family: var(--font-head); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green); background: var(--green-glow); border: 1px solid var(--green);
+      padding: 4px 10px; border-radius: 2px; display: inline-block; margin-bottom: 12px;
+    }
+    .meetup-card h2 { font-family: var(--font-head); font-size: 22px; color: var(--white); margin-bottom: 8px; }
+    .meetup-meta { font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+    .meetup-meta .loc::before { content: '📍 '; }
+    .meetup-meta .time::before { content: '🕐 '; }
+
+    /* BLOG */
+    .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .post-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 2px;
+      padding: 24px; transition: 0.25s; text-decoration: none; display: block;
+    }
+    .post-card:hover { border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,255,65,0.08); }
+    .post-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; }
+    .post-card h3 { font-family: var(--font-head); font-size: 14px; color: var(--white); margin-bottom: 10px; line-height: 1.4; }
+    .post-card p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+    .post-tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; padding: 2px 8px; border-radius: 2px; margin-top: 14px; border: 1px solid; }
+    .post-tag.announce { color: var(--green); border-color: var(--green); background: var(--green-glow); }
+    .post-tag.cfp      { color: var(--amber); border-color: var(--amber); background: rgba(255,183,0,0.1); }
+    .post-tag.recap    { color: var(--red);   border-color: var(--red);   background: rgba(255,43,43,0.1); }
+    .post-tag.news     { color: #7dd3fc; border-color: #7dd3fc; background: rgba(125,211,252,0.1); }
+
+    /* LINKS */
+    .links-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .link-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 2px;
+      padding: 24px 20px; text-decoration: none; text-align: center; transition: 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .link-card:hover { border-color: var(--green); background: var(--bg3); transform: translateY(-2px); }
+    .link-icon { font-size: 28px; line-height: 1; }
+    .link-card span { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; }
+    .link-card:hover span { color: var(--green); }
+
+    /* COC */
+    .coc-box { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--amber); border-radius: 2px; padding: 28px 32px; }
+    .coc-box h3 { font-family: var(--font-head); font-size: 13px; color: var(--amber); letter-spacing: 2px; margin-bottom: 16px; }
+    .coc-box ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .coc-box li { font-family: var(--font-mono); font-size: 13px; color: var(--text); display: flex; gap: 12px; }
+    .coc-box li::before { content: '▸'; color: var(--amber); flex-shrink: 0; }
+
+    /* FOOTER */
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); background: var(--bg2); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 40px 24px 24px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start; }
+    .footer-logo { font-family: var(--font-head); font-size: 16px; color: var(--green); letter-spacing: 2px; text-shadow: 0 0 10px var(--green-glow); margin-bottom: 12px; }
+    .footer-copy { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); text-decoration: none; transition: 0.2s; }
+    .footer-links a:hover { color: var(--green); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding: 16px 24px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); display: flex; justify-content: space-between; }
+    .defcon-red { font-family: var(--font-head); font-size: 11px; color: var(--red); letter-spacing: 1px; }
+
+    /* ANIM */
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .hero > * { animation: fadeInUp 0.6s ease both; }
+    .hero > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero > *:nth-child(3) { animation-delay: 0.3s; }
+    .hero > *:nth-child(4) { animation-delay: 0.4s; }
+    .hero > *:nth-child(5) { animation-delay: 0.5s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .blog-grid  { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .links-grid { grid-template-columns: repeat(2,1fr); }
+      .meetup-card { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+    @media (max-width: 600px) {
+      nav { display: none; flex-direction: column; width: 100%; }
+      nav.open { display: flex; }
+      .hamburger { display: flex; }
+      .nav-inner { flex-wrap: wrap; height: auto; padding: 12px 20px; }
+      nav { padding: 8px 0 16px; gap: 4px; }
+      nav a { width: 100%; text-align: center; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .links-grid { grid-template-columns: repeat(2,1fr); }
+      .stat-item { padding: 20px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="#" class="logo" id="nav-logo">DC381 <span class="logo-badge">DEFCON</span></a>
+    <div class="hamburger" onclick="document.getElementById('main-nav').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+    <nav id="main-nav">
+      <a href="#about">About</a>
+      <a href="#meetup">Meetup</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="https://defcon.org" target="_blank" rel="noopener">DEFCON.org ↗</a>
+    </nav>
+  </div>
+</header>
+
+<section>
+  <div class="hero">
+    <div class="hero-label" id="hero-label">DC381 &bull; Loading...</div>
+    <h1>We are<br/><span id="hero-title">DefCon DC381</span></h1>
+    <p class="hero-sub" id="hero-sub">Loading...</p>
+    <div class="hero-actions">
+      <a href="#meetup" class="btn btn-primary">Next Meetup</a>
+      <a href="#about"  class="btn btn-outline">Who We Are</a>
+    </div>
+    <div class="terminal-badge">whoami &nbsp;&nbsp;<span class="blink">█</span></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-item"><span class="stat-value" id="stat-group">DC381</span><div class="stat-label">Group Number</div></div>
+    <div class="stat-item"><span class="stat-value" id="stat-founded">—</span><div class="stat-label">Founded</div></div>
+    <div class="stat-item"><span class="stat-value" id="stat-members">—</span><div class="stat-label">Members</div></div>
+    <div class="stat-item"><span class="stat-value" id="stat-meetups">—</span><div class="stat-label">Meetups Held</div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="section-title">// About Us</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p id="about-desc">Loading...</p>
+        <p>We hold regular meetups with talks on offensive security, reverse engineering, OSINT, privacy, hardware hacking, and more. All skill levels are welcome — from first-year students to seasoned professionals.</p>
+        <p>We believe in the hacker ethos: curiosity, creativity, and sharing knowledge freely. No gatekeeping. No drama. Just learning.</p>
+        <p style="margin-top:24px;">
+          <a href="https://defcongroups.org" target="_blank" class="btn btn-outline" style="font-size:11px;">Verify on DEFCONgroups.org ↗</a>
+        </p>
+      </div>
+      <div>
+        <div class="about-card">
+          <h3>// Topics We Cover</h3>
+          <div class="tag-list" id="topics-list">Loading...</div>
+        </div>
+        <div class="about-card" style="margin-top:20px;">
+          <h3>// How To Join</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-family:var(--font-mono);font-size:13px;color:var(--text);display:flex;gap:10px;"><span style="color:var(--green)">01.</span> Show up to a meetup</li>
+            <li style="font-family:var(--font-mono);font-size:13px;color:var(--text);display:flex;gap:10px;"><span style="color:var(--green)">02.</span> Join our Discord server</li>
+            <li style="font-family:var(--font-mono);font-size:13px;color:var(--text);display:flex;gap:10px;"><span style="color:var(--green)">03.</span> Be excellent to each other</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="meetup" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-title">// Next Meetup</div>
+    <div id="meetup-container"></div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="section-inner">
+    <div class="section-title">// News &amp; Blog</div>
+    <div class="blog-grid" id="blog-grid">Loading...</div>
+  </div>
+</section>
+
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-title">// Code of Conduct</div>
+    <div class="coc-box">
+      <h3>⚠ DEFCON Standard COC</h3>
+      <ul>
+        <li>Be excellent to each other. No harassment, hate speech, or discrimination of any kind.</li>
+        <li>Respect the venue and other attendees. Leave it better than you found it.</li>
+        <li>No unauthorized testing of networks, devices, or systems — at events or otherwise.</li>
+        <li>Talks and demos should be educational, not malicious. Know the difference.</li>
+        <li>Violations may result in removal from events and the community. No exceptions.</li>
+        <li>When in doubt, ask an organizer. We're here to help.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-title">// Find Us</div>
+    <div class="links-grid" id="links-grid">Loading...</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo" id="footer-logo">DC381 // Loading</div>
+      <div class="footer-copy">
+        Independent DEFCON local group. Not affiliated with DEF CON Communications, Inc.<br/>
+        beyond the DEFCON Groups program.
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#meetup">Meetup</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span id="footer-copy">&copy; 2025 DC381. All rights reserved.</span>
+    <span class="defcon-red">DEFCON GROUPS</span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+(function() {
+  const d = DC381;
+  const s = d.site;
+  const soc = d.social;
+
+  document.title = `${s.groupNumber} | DefCon ${s.city}`;
+  document.querySelector('meta[name="description"]').content =
+    `${s.groupNumber} – DefCon local group, ${s.city}, ${s.country}.`;
+
+  document.getElementById('hero-label').innerHTML =
+    `${s.groupNumber} &bull; ${s.city}, ${s.country}`;
+  document.getElementById('hero-title').textContent = `DefCon ${s.city}`;
+  document.getElementById('hero-sub').textContent = s.description;
+
+
+  document.getElementById('stat-group').textContent   = s.groupNumber;
+  document.getElementById('stat-founded').textContent = s.founded;
+  document.getElementById('stat-members').textContent = s.memberCount;
+  document.getElementById('stat-meetups').textContent = s.meetupsHeld;
+
+
+  document.getElementById('about-desc').textContent =
+    `We are ${s.groupNumber}, the official DEFCON local group based in ${s.city}, ${s.country}. ` + s.description;
+
+
+  document.getElementById('topics-list').innerHTML =
+    d.topics.map(t => `<span class="tag">${t}</span>`).join('');
+
+  
+  const mc = document.getElementById('meetup-container');
+  const m  = d.nextMeetup;
+  if (m.enabled) {
+    const calBtn = m.calendarUrl
+      ? `<a href="${m.calendarUrl}" target="_blank" class="btn btn-outline" style="font-size:11px;text-align:center;">Add to Calendar</a>`
+      : '';
+    mc.innerHTML = `
+      <div class="meetup-card">
+        <div>
+          <div class="meetup-date-badge">Upcoming Event</div>
+          <h2>${m.title}</h2>
+          <p style="font-size:13px;color:var(--text);max-width:500px;">${m.description}</p>
+          <div class="meetup-meta">
+            <span class="loc">${m.venue}</span>
+            <span class="time">${m.date} &bull; ${m.time}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end;flex-shrink:0;">
+          <a href="${m.rsvpUrl}" target="_blank" class="btn btn-primary">RSVP Now</a>
+          ${calBtn}
+        </div>
+      </div>`;
+  } else {
+    mc.innerHTML = `
+      <p style="font-family:var(--font-mono);font-size:13px;color:var(--text-dim);text-align:center;padding:32px 0;">
+        No meetup scheduled yet. <a href="#contact" style="color:var(--green);">Contact us</a> if you want to speak or suggest a topic.
+      </p>`;
+  }
+
+  const tagLabel = { announce:'Announcement', cfp:'CFP Open', recap:'Recap', news:'News' };
+  document.getElementById('blog-grid').innerHTML = d.posts.map(p => `
+    <a href="${p.url}" class="post-card">
+      <div class="post-date">${p.date}</div>
+      <h3>${p.title}</h3>
+      <p>${p.summary}</p>
+      <span class="post-tag ${p.tag}">${tagLabel[p.tag] || p.tag}</span>
+    </a>`).join('');
+
+  const socialDefs = [
+    { key:'discord',  icon:'🎮', label:'Discord'  },
+    { key:'email',    icon:'📧', label:'Email',    prefix:'mailto:' },
+    { key:'meetup',   icon:'📅', label:'Meetup'   },
+  ];
+  const linksHtml = socialDefs
+    .filter(l => soc[l.key])
+    .map(l => {
+      const href = l.prefix ? l.prefix + soc[l.key] : soc[l.key];
+      return `<a href="${href}" ${l.prefix ? '' : 'target="_blank" rel="noopener"'} class="link-card">
+        <div class="link-icon">${l.icon}</div>
+        <span>${l.label}</span>
+      </a>`;
+    }).join('');
+  document.getElementById('links-grid').innerHTML = linksHtml || '<p style="color:var(--text-dim);font-family:var(--font-mono);font-size:13px;">No links configured yet.</p>';
+
+  document.getElementById('footer-logo').textContent = `${s.groupNumber} // ${s.city}`;
+  document.getElementById('footer-copy').textContent =
+    `© ${new Date().getFullYear()} ${s.groupNumber} — ${s.city}. All rights reserved.`;
+
+  document.getElementById('nav-logo').innerHTML =
+    `${s.groupNumber} <span class="logo-badge">DEFCON</span>`;
+})();
+</script>
+
+</body>
+</html>
