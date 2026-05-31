@@ -14,7 +14,7 @@ const DC381 = {
 
   social: {
     discord:  "TO BE ADDED",                                      
-    email:    "TO BE ADDED",                    
+    email:    "defcon381@gmail.com",                    
     meetup:   "TO BE ADDED",                                    
   },
 
